@@ -2,18 +2,37 @@
 
 'use strict';
 
-task('default', ['lint']);
+(function() {
+	task('default', ['lint']);
 
-desc('lint everything');
-task('lint', [], function(){
-	var lint  = require('./lint_runner.js');
-	var files = new jake.FileList();
-	files.include('**/*.js');
-	files.exclude('node_modules');
+	desc('lint everything');
+	task('lint', [], function(){
+		var lint  = require('./lint_runner.js');
+		var files = new jake.FileList();
+		files.include('**/*.js');
+		files.exclude('node_modules');
 
-	var options = {
-		node: true
-	};
+		lint.validateFileList(files.toArray(), nodeLintOptions(), {});
+	});
 
-	lint.validateFileList(files.toArray(), options, {});
-});
+	function nodeLintOptions() {
+		return {
+			bitwise: true,
+			curly: false,
+			eqeqeq: true,
+			forin: true,
+			immed: true,
+			latedef: true,
+			newcap: true,
+			noarg: true,
+			noempty: true,
+			nonew: true,
+			regexp: true,
+			undef: true,
+			strict: true,
+			trailing: true,
+			node: true
+		};
+	}
+})();
+
