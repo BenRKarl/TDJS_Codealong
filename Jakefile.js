@@ -7,7 +7,7 @@
 
 	desc('lint everything');
 	task('lint', [], function(){
-		var lint  = require('./lint_runner.js');
+		var lint  = require('./build/lint_runner.js');
 		var files = new jake.FileList();
 		files.include('**/*.js');
 		files.exclude('node_modules');
