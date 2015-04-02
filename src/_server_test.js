@@ -9,17 +9,8 @@ exports.tearDown = function(done) {
   });
 };
 
-exports.testServerRespondsToGetRequests = function(test) {
-  server.start();
-
-  http.get('http://localhost:8080', function(response) {
-    response.on('data', function(){}); //from comments in video, apparently this line is needed in node v. 0.10 and greater
-    test.done();
-  });
-};
-
 exports.test_serverReturnsHelloWorld = function(test) {
-  server.start();
+  server.start(8080);
 
   var request = http.get('http://localhost:8080');
   request.on('response', function(response) {    
