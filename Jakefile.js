@@ -12,14 +12,19 @@
 		files.include('**/*.js');
 		files.exclude('node_modules');
 
-		lint.validateFileList(files.toArray(), nodeLintOptions(), {});
+		var options = nodeLintOptions();
+		var passed = lint.validateFileList(files.toArray(), options, {});
+		if (!passed) fail('Lint Failed');
 	});
 
 	desc('test everything');
 	task('test', [], function() {
 		var reporter = require('nodeunit').reporters['default'];
-		reporter.run(['src/_server_test.js']);
-	});
+		reporter.run(['src/_server_test.js'], null, function(failures) {
+			if (failures) fail('Tests failed');
+			complete();
+		});
+	}, {async: true});
 
 	function nodeLintOptions() {
 		return {
