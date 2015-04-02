@@ -1,8 +1,20 @@
 'use strict';
 
 var server = require('./server.js');
+var http   = require('http');
 
-exports.testNothing = function(test) {
-	test.equals(3, server.number(), 'number');
-	test.done();
+exports.tearDown = function(done) {
+  server.stop(function(){
+    done();
+  });
 };
+
+exports.testServerRespondsToGetRequests = function(test) {
+  server.start();
+
+  http.get('http://localhost:8080', function(response) {
+    response.on('data', function(){}); //from comments in video, apparently this line is needed in node v. 0.10 and greater
+    test.done();
+  });
+};
+ 
